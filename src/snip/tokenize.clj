@@ -7,19 +7,16 @@
        re-pattern))
 
 (defn tokenizer
-  "Returns a parser, that, when given a line returns the keyword representing
-  the annotation or nil."
+  "Creates a tokenizer that extracts annotations from a sequence of lines."
   [cmnt]
   (let [re-open (re-cmnt cmnt "\\Q{{{\\E\\s*([\\w-]+)")
         re-close (re-cmnt cmnt "\\Q}}}\\E")]
     #(condp re-matches %
        re-open :>> (fn [[_ ann]] (keyword ann))
        re-close ::END
-       nil)))
+       %)))
 
 (defn tokenize
-  "Take a sequence of lines and replace the parseable lines with the results
-  of applying `parse-fn` on them."
+  "Apply a tokenizer over a sequence of lines."
   [token-fn lines]
-  (map #(if-let [res (token-fn %)] res %)
-       lines))
+  (map token-fn lines))

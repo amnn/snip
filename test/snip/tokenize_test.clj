@@ -12,15 +12,15 @@
            ((tokenizer "#") "# }}}"))))
 
   (testing "comment delimiter must match"
-    (is (= nil
+    (is (= "// {{{ annotation"
            ((tokenizer ";;") "// {{{ annotation"))))
 
   (testing "must be a comment"
-    (is (= nil
+    (is (= "{{{ annotation"
            ((tokenizer ";;") "{{{ annotation"))))
 
   (testing "must be an annotation"
-    (is (= nil
+    (is (= "annotation"
            ((tokenizer ";;") "annotation")))))
 
 (deftest tokenize-lines-test
