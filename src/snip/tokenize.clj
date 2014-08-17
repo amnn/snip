@@ -1,4 +1,4 @@
-(ns snip.parse
+(ns snip.tokenize
   (:import  java.util.regex.Pattern))
 
 (defn- re-cmnt [cmnt re]
@@ -6,7 +6,7 @@
        (str "\\A" (Pattern/quote cmnt) "\\s*")
        re-pattern))
 
-(defn parser
+(defn tokenizer
   "Returns a parser, that, when given a line returns the keyword representing
   the annotation or nil."
   [cmnt]
@@ -17,9 +17,9 @@
        re-close ::END
        nil)))
 
-(defn parse-lines
+(defn tokenize
   "Take a sequence of lines and replace the parseable lines with the results
   of applying `parse-fn` on them."
-  [parse-fn lines]
-  (map #(if-let [res (parse-fn %)] res %)
+  [token-fn lines]
+  (map #(if-let [res (token-fn %)] res %)
        lines))

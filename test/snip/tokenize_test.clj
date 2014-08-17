@@ -1,37 +1,37 @@
-(ns snip.parse-test
+(ns snip.tokenize-test
   (:require [clojure.test :refer :all]
-            [snip.parse :refer :all]))
+            [snip.tokenize :refer :all]))
 
-(deftest parser-test
+(deftest tokenizer-test
   (testing "matches starting annotations"
     (is (= :annotation
-           ((parser ";;") ";; {{{ annotation"))))
+           ((tokenizer ";;") ";; {{{ annotation"))))
 
   (testing "matches ending annotation"
-    (is (= :snip.parse/END
-           ((parser "#") "# }}}"))))
+    (is (= :snip.tokenize/END
+           ((tokenizer "#") "# }}}"))))
 
   (testing "comment delimiter must match"
     (is (= nil
-           ((parser ";;") "// {{{ annotation"))))
+           ((tokenizer ";;") "// {{{ annotation"))))
 
   (testing "must be a comment"
     (is (= nil
-           ((parser ";;") "{{{ annotation"))))
+           ((tokenizer ";;") "{{{ annotation"))))
 
   (testing "must be an annotation"
     (is (= nil
-           ((parser ";;") "annotation")))))
+           ((tokenizer ";;") "annotation")))))
 
-(deftest parse-lines-test
-  (testing "parses lines"
+(deftest tokenize-lines-test
+  (testing "tokenize lines"
     (is (= ["str1"
             :annotation
             "str2"
-            :snip.parse/END
+            :snip.tokenize/END
             "str3"]
-           (parse-lines
-             (parser ";;")
+           (tokenize
+             (tokenizer ";;")
              ["str1"
               ";; {{{ annotation"
               "str2"
