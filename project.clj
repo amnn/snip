@@ -1,6 +1,9 @@
 (defproject snip "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description
+  (str "Cut up a source file into snippets so you can insert "
+       "them into a report/thesis/article or other publication "
+       "of some sort")
+  :url "https://github.com/asQuirreL/snip"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]]
