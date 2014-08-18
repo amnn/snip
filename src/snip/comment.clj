@@ -1,4 +1,4 @@
-(ns sniper.comment)
+(ns snip.comment)
 
 (def
   ^{:doc "Map from languages to comment delimiters."}
