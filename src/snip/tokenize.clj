@@ -1,5 +1,5 @@
 (ns snip.tokenize
-  (:import  java.util.regex.Pattern))
+  (:import java.util.regex.Pattern))
 
 (defn- re-cmnt [cmnt re]
   (->> re
