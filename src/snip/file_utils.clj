@@ -6,7 +6,7 @@
 
 (defn canonicalize-path [path]
   "Returns the canoncial path for the given path"
-  (.getCanonicalPath (io/as-file path)))
+  (.getCanonicalFile (io/as-file path)))
 
 (defn files [files-in recursive? hidden?]
   "Takes a sequence of files `files-in` and returns the sequence of files that
