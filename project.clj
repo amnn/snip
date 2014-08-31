@@ -1,4 +1,4 @@
-(defproject snip "0.1.0-SNAPSHOT"
+(defproject snip "1.0"
   :description
   ("Cut up a source file into snippets so you can insert "
    "them into a report/thesis/article or other publication "
