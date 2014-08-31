@@ -8,12 +8,24 @@
   "Returns the canoncial path for the given path"
   (.getCanonicalFile (io/as-file path)))
 
+(defn- ext-split [file]
+  "Split name of file on periods"
+  (string/split (.getName file) #"\."))
+
+
 (defn extension [file]
   "Returns the extension for a particular file"
-  (-> (.getName file)
-      (string/split #"\.")
+  (-> (ext-split file)
       rest
       (->> (string/join "."))))
+
+(defn strip-ext [file]
+  "File name with extension stripped"
+  (first (ext-split file)))
+
+(defn dir [file]
+  "Returns the directory of the file"
+  (.getParentFile file))
 
 (defn files [files-in recursive? hidden?]
   "Takes a sequence of files `files-in` and returns the sequence of files that
@@ -56,8 +68,9 @@
 (defn snippet-file [out src snip]
   "Generates the snippet file from the output directory, source file name, and
   snippet name."
-  (-> (out-relative-path out src)
+  (-> (out-relative-path out (dir src))
       vec
-      (conj (name snip))
+      (conj (strip-ext src)
+            (str (name snip) \. (extension src)))
       (->> (string/join "_")
            (io/file out))))
