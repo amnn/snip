@@ -8,6 +8,13 @@
   "Returns the canoncial path for the given path"
   (.getCanonicalFile (io/as-file path)))
 
+(defn extension [file]
+  "Returns the extension for a particular file"
+  (-> (.getName file)
+      (string/split #"\.")
+      rest
+      (->> (string/join "."))))
+
 (defn files [files-in recursive? hidden?]
   "Takes a sequence of files `files-in` and returns the sequence of files that
   should be processed according to whether the files should be traversed

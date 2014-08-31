@@ -20,22 +20,22 @@
 (defn- parse-file [file cmnt]
   "Convert a file into a snip-seq"
   (->>
-    file
-    line-seq
+    file line-seq
     (tok/tokenize
       (tok/tokenizer cmnt))
     snip/snip-seq))
 
-(defn- process-file [f out]
+(defn- process-file [f out cmnt]
   "Extract the snippets from a given file path `f`, and puts them in `out`."
-  (with-open [file (reader f)]
-      (doseq [[label snippet] (parse-file file ";;")
+  (let [cmnt (or cmnt (lang->cmnt (extension f)))]
+    (with-open [file (reader f)]
+      (doseq [[label snippet] (parse-file file cmnt)
               :let [s-name (snippet-file out f label)]]
         (with-open [wrt (writer s-name :append false)]
           (doseq [line snippet]
             (doto wrt
               (.append line)
-              (.append \newline)))))))
+              (.append \newline))))))))
 
 (defn -main
   [& args]
@@ -49,7 +49,5 @@
       (println help)
 
       :else
-      (doseq [file (files files-in
-                          (:recursive opts)
-                          (:include-hidden opts))]
-        (process-file file (:output opts))))))
+      (doseq [file (files files-in (:recursive opts) (:include-hidden opts))]
+        (process-file file (:output opts) (:comment opts))))))
