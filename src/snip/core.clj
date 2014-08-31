@@ -1,16 +1,14 @@
 (ns snip.core
-  (:require [clojure.java.io :as io])
-  (:use [clojure.tools.cli :only [parse-opts]])
+  (:require [clojure.tools.cli :refer [parse-opts]]
+            [snip.file-utils :refer :all])
   (:gen-class))
-
-(defn- normalize-path [path]
-  (.getCanonicalPath (io/as-file path)))
 
 (def ^:private cli-opts
   [["-o" "--output" "Output directory, defaults to the current directory"
     :default "."
-    :parse-fn normalize-path]
+    :parse-fn canonicalize-path]
    ["-r" "--recursive" "Treat each file/directory recursively"]
+   ["-H" "--include-hidden" "Include hidden files"]
    ["-h" "--help" "Print this help summary"]])
 
 (defn -main
