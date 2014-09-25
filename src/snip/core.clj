@@ -9,7 +9,7 @@
 
 (def ^:private cli-opts
   [["-o" "--output DIRECTORY" "Defaults to current working directory"
-    :default "."
+    :default (canonicalize-path ".")
     :parse-fn canonicalize-path]
    ["-c" "--comment COMMENT SYNTAX" "The comment prefix"
     :default nil]

@@ -23,7 +23,7 @@
   "File name with extension stripped"
   (first (ext-split file)))
 
-(defn dir [file]
+(defn- dir [file]
   "Returns the directory of the file"
   (.getParentFile file))
 
@@ -33,8 +33,8 @@
   `recursive?`-ly and whether `hidden?` files should be included."
   (->>
     (if recursive?
-      (mapcat #(-> % io/as-file file-seq) files-in)
-      (map io/as-file files-in))
+      (mapcat #(-> % canonicalize-path file-seq) files-in)
+      (map canonicalize-path files-in))
     (filter (fn [file]
               (and (.isFile file)
                    (or hidden?
